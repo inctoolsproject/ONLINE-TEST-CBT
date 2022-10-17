@@ -11,9 +11,9 @@ class Login extends MX_Controller
             if ($this->u1 != 'logout') {
                 redirect('admin', 'refresh');
             }
-        } elseif (!empty($this->session->userdata('log_baa'))) {
+        } elseif (!empty($this->session->userdata('log_guru'))) {
             if ($this->u1 != 'logout') {
-                redirect('management', 'refresh');
+                redirect('guru', 'refresh');
             }
         }
 
@@ -37,6 +37,14 @@ class Login extends MX_Controller
                 $this->session->set_userdata('log_super', $row);
 
                 redirect('admin');
+            } else if ($row['role'] == 'Guru') {
+                $this->session->set_userdata('log_guru', $row);
+
+                redirect('guru');
+            } else if ($row['role'] == 'Peserta') {
+                $this->session->set_userdata('log_peserta', $row);
+
+                redirect('peserta');
             }
         } else {
             $message = "Sepertinya Anda salah memasukkan username atau password!!";

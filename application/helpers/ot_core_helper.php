@@ -81,6 +81,28 @@ if (!function_exists('admin_init')) {
     }
 }
 
+if (!function_exists('guru_init')) {
+    function guru_init()
+    {
+        $CI = &get_instance();
+
+        if (empty($CI->session->userdata('log_guru'))) {
+            $CI->session->set_flashdata('error', 'Silakan login terlebih dahulu!!');
+            redirect('login', 'refresh');
+        } else {
+            $CI->login            = $CI->session->userdata('log_guru')['is_logged_in'];
+            $CI->id_user          = $CI->session->userdata('log_guru')['id'];
+        }
+
+        global_init();
+
+        sessions_init($CI->session->userdata('log_guru')['username']);
+
+        $CI->load->model('M_Guru', 'guru');
+        $CI->user = $CI->guru->getUser(['users.id' => $CI->id_user]);
+    }
+}
+
 if (!function_exists('img_resize')) {
     function img_resize($newWidth, $targetFile, $originalFile)
     {
