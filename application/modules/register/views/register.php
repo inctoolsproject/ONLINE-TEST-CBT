@@ -59,6 +59,8 @@
 							<input class="form-control" type="text" name="nama" autocomplete="off" autocomplete="off" placeholder="Nama Lengkap" required>
 							<input class="form-control" type="email" name="email" autocomplete="off" autocomplete="off" placeholder="Email" required>
 							<input class="form-control" type="password" name="password" autocomplete="off" id="password" autocomplete="off" placeholder="Password" required>
+							<input type="checkbox" class="form-check-input" id="showpw">
+							<label class="form-check-label font-weight-light" for="showpw">Show Password</label>
 							<div class="form-button">
 								<button id="submit" type="submit" class="ibtn">Registrasi</button>
 							</div>

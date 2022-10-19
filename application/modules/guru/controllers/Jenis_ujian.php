@@ -99,6 +99,54 @@ class Jenis_ujian extends MX_Controller
 		echo json_encode($data);
 	}
 
+	public function getToken($id)
+	{
+		$this->db->order_by('created_at', 'desc');
+		$data = $this->universal->getOne([
+			'id_jenis_ujian' => dekrip($id),
+		], 'token');
+
+		$res = [
+			'token'       => $data->token,
+			'selesai'     => $data->token_selesai,
+			'tanggal'     => ($data->mulai_ujian) ? date('Y-m-d', strtotime($data->mulai_ujian)) : '',
+			'jam'         => ($data->mulai_ujian) ? date('H:i', strtotime($data->mulai_ujian)) : '',
+			'mulai_ujian' => $data->mulai_ujian
+		];
+
+		echo json_encode($res);
+	}
+
+	public function generateToken()
+	{
+		$id = $this->input->get('id');
+		$tanggal = $this->input->get('tanggal');
+		$jam = $this->input->get('jam');
+
+		$date = date('Y-m-d H:i:s');
+		$dates = strtotime($date);
+		$selesai = date("Y-m-d H:i:s", strtotime("+30" . " minutes", $dates));
+
+		$data = [
+			'id_jenis_ujian' => dekrip($id),
+			'token'          => $this->_getToken(),
+			'token_selesai'  => $selesai,
+			'mulai_ujian'    => $tanggal . ' ' . $jam
+		];
+
+		$this->universal->insert($data, 'token');
+
+		$res = [
+			'token'       => $data['token'],
+			'selesai'     => $data['token_selesai'],
+			'tanggal'     => $tanggal,
+			'jam'         => $jam,
+			'mulai_ujian' => $data['mulai_ujian']
+		];
+
+		echo json_encode($res);
+	}
+
 	public function delete($id)
 	{
 		$delete = $this->universal->delete(['id' => dekrip($id)], 'jenis_ujian');
@@ -110,6 +158,12 @@ class Jenis_ujian extends MX_Controller
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	private function _getToken()
+	{
+		$data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		return substr(str_shuffle($data), 0, 10);
 	}
 }
 

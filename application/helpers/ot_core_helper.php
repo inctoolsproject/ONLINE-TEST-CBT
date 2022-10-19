@@ -103,6 +103,28 @@ if (!function_exists('guru_init')) {
     }
 }
 
+if (!function_exists('peserta_init')) {
+    function peserta_init()
+    {
+        $CI = &get_instance();
+
+        if (empty($CI->session->userdata('log_peserta'))) {
+            $CI->session->set_flashdata('error', 'Silakan login terlebih dahulu!!');
+            redirect('login', 'refresh');
+        } else {
+            $CI->login            = $CI->session->userdata('log_peserta')['is_logged_in'];
+            $CI->id_user          = $CI->session->userdata('log_peserta')['id'];
+        }
+
+        global_init();
+
+        sessions_init($CI->session->userdata('log_peserta')['username']);
+
+        $CI->load->model('M_Peserta', 'peserta');
+        $CI->user = $CI->peserta->getUser(['users.id' => $CI->id_user]);
+    }
+}
+
 if (!function_exists('img_resize')) {
     function img_resize($newWidth, $targetFile, $originalFile)
     {
@@ -154,6 +176,22 @@ if (!function_exists('img_resize')) {
         }
 
         $image_save_func($tmp, "$targetFile");
+    }
+}
+
+if (!function_exists('base64img')) {
+    function base64img($url)
+    {
+        $type = pathinfo($url, PATHINFO_EXTENSION);
+        $arrContextOptions = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        );
+        $data = file_get_contents($url, false, stream_context_create($arrContextOptions));
+        $base64img = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        return $base64img;
     }
 }
 
