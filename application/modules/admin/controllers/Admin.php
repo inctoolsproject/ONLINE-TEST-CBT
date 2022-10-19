@@ -43,7 +43,7 @@ class Admin extends MX_Controller
 						} else {
 
 							$upload_data = $this->upload->data();
-							$dataSebelumnya = $this->universal->getOne(['id' => $this->id_user], 'admin');
+							$dataSebelumnya = $this->universal->getOne(['id' => $this->id_user], 'users');
 							$path = FCPATH . 'upload/admin/';
 							if ($dataSebelumnya->foto != 'default.jpg') {
 								unlink($path . $dataSebelumnya->foto);
@@ -55,7 +55,7 @@ class Admin extends MX_Controller
 							];
 							img_resize(300, $path . $data['foto'], $path . $data['foto']);
 
-							$update = $this->universal->update($data, ['id' => $this->id_user], 'admin');
+							$update = $this->universal->update($data, ['id' => $this->id_user], 'users');
 
 							($update) ? $this->notifikasi->success('Update profil dengan foto berhasil') : $this->notifikasi->error('Update gagal');
 
@@ -67,7 +67,7 @@ class Admin extends MX_Controller
 							"email"             => $email
 						];
 
-						$update = $this->universal->update($data, ['id' => $this->id_user], 'admin');
+						$update = $this->universal->update($data, ['id' => $this->id_user], 'users');
 
 						($update) ? $this->notifikasi->success('Update profil tanpa foto berhasil') : $this->notifikasi->error('Update gagal');
 
@@ -95,14 +95,14 @@ class Admin extends MX_Controller
 					$oldPass = $this->input->post('oldPass', TRUE);
 					$newPass = $this->input->post('newPass', TRUE);
 
-					$user = $this->universal->getOne(['id'  => $this->id_user], 'admin');
+					$user = $this->universal->getOne(['id'  => $this->id_user], 'users');
 
 					if (password_verify($oldPass, $user->password)) {
 						$data = [
 							"password" =>  password_hash($newPass, PASSWORD_BCRYPT, ['const' => 14])
 						];
 
-						$update = $this->universal->update($data, ['id' => $this->id_user], 'admin');
+						$update = $this->universal->update($data, ['id' => $this->id_user], 'users');
 
 						($update) ? $this->notifikasi->success('Password berhasil diupdate') : $this->notifikasi->error('Password gagal diupdate');
 					} else {
@@ -116,31 +116,6 @@ class Admin extends MX_Controller
 					'title'     => 'Profile'
 				];
 				$this->load->view('profile', $params);
-			}
-		} elseif ($this->u2 == 'generate_jalur') {
-			echo 'masuk';
-			$this->db->where('jalur !=', 1);
-			$this->db->group_by('nim_ta');
-			// $this->db->limit(1500);
-			$kosong = $this->db->get('tagihan_test')->result();
-			echo $this->db->last_query();
-
-			if ($kosong) {
-				foreach ($kosong as $kos) {
-					$hasil =  $this->db->get_where('mahasiswa', array('nim' => $kos->nim_ta))->row();
-					// echo $this->db->last_query();
-					if ($hasil != '') {
-						$this->db->where('nim', $hasil->nim);
-						$updates = $this->db->update('mahasiswa', array(
-							'jalur' =>  (int)$kos->jalur
-						));
-						echo $this->db->last_query();
-
-						if ($updates) {
-							echo 'sukses';
-						}
-					}
-				}
 			}
 		} else {
 			$params = [

@@ -52,7 +52,7 @@
 							</div>
 						</form>
 						<div class="other-links">
-							<span>Lupa password? <a href="<?php echo base_url('#forgot') ?>">Reset sandi</a></span><br>
+							<span>Belum punya akun? <a href="<?php echo base_url('register') ?>">Klik disini</a></span><br>
 							<a href="<?= base_url(); ?>">Copyright © <?= date('Y') ?> | Online Test</a>
 						</div>
 					</div>

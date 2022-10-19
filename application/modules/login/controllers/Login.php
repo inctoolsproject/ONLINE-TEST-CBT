@@ -15,6 +15,10 @@ class Login extends MX_Controller
             if ($this->u1 != 'logout') {
                 redirect('guru', 'refresh');
             }
+        } elseif (!empty($this->session->userdata('log_peserta'))) {
+            if ($this->u1 != 'logout') {
+                redirect('peserta', 'refresh');
+            }
         }
 
         $this->load->model('M_Login', 'login');

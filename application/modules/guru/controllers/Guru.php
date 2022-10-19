@@ -15,10 +15,9 @@ class Guru extends MX_Controller
 		if ($this->u2 == 'profile') {
 			if ($this->u3 == 'updateFoto') {
 				$this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
-				$this->form_validation->set_rules('nama', 'Nama', 'required');
 				if ($this->form_validation->run() == false) {
 					$this->notifikasi->error(str_replace("\r\n", "", json_encode(strip_tags(validation_errors()))));
-					redirect('admin/profile', 'refresh');
+					redirect('guru/profile', 'refresh');
 				} else {
 					$nama = $this->input->post('nama', TRUE);
 					$email = trim($this->input->post('email', TRUE));
@@ -27,7 +26,7 @@ class Guru extends MX_Controller
 
 					if ($upload_foto) {
 						$this->load->library('upload');
-						$config['upload_path']          = './upload/admin';
+						$config['upload_path']          = './upload/guru';
 						$config['allowed_types']        = 'jpg|jpeg|png';
 						// $config['max_size']             = 3072; // 3 mb
 						$config['remove_spaces']        = TRUE;
@@ -39,39 +38,37 @@ class Guru extends MX_Controller
 
 						if (!$this->upload->do_upload('foto')) {
 							$this->notifikasi->error($this->upload->display_errors());
-							redirect('admin/profile', 'refresh');
+							redirect('guru/profile', 'refresh');
 						} else {
 
 							$upload_data = $this->upload->data();
-							$dataSebelumnya = $this->universal->getOne(['id' => $this->id_user], 'admin');
-							$path = FCPATH . 'upload/admin/';
+							$dataSebelumnya = $this->universal->getOne(['id' => $this->id_user], 'users');
+							$path = FCPATH . 'upload/guru/';
 							if ($dataSebelumnya->foto != 'default.jpg') {
 								unlink($path . $dataSebelumnya->foto);
 							}
 							$data = [
-								"nama"              => $nama,
 								"email"             => $email,
 								"foto"              => $upload_data['file_name']
 							];
 							img_resize(300, $path . $data['foto'], $path . $data['foto']);
 
-							$update = $this->universal->update($data, ['id' => $this->id_user], 'admin');
+							$update = $this->universal->update($data, ['id' => $this->id_user], 'users');
 
 							($update) ? $this->notifikasi->success('Update profil dengan foto berhasil') : $this->notifikasi->error('Update gagal');
 
-							redirect('admin/profile', 'refresh');
+							redirect('guru/profile', 'refresh');
 						}
 					} else {
 						$data = [
-							"nama"              => $nama,
 							"email"             => $email
 						];
 
-						$update = $this->universal->update($data, ['id' => $this->id_user], 'admin');
+						$update = $this->universal->update($data, ['id' => $this->id_user], 'users');
 
 						($update) ? $this->notifikasi->success('Update profil tanpa foto berhasil') : $this->notifikasi->error('Update gagal');
 
-						redirect('admin/profile', 'refresh');
+						redirect('guru/profile', 'refresh');
 					}
 				}
 			} elseif ($this->u3 == 'updatePass') {
@@ -90,26 +87,65 @@ class Guru extends MX_Controller
 
 				if ($this->form_validation->run() == false) {
 					$this->notifikasi->error(str_replace("\r\n", "", json_encode(strip_tags(validation_errors()))));
-					redirect('admin/profile', 'refresh');
+					redirect('guru/profile', 'refresh');
 				} else {
 					$oldPass = $this->input->post('oldPass', TRUE);
 					$newPass = $this->input->post('newPass', TRUE);
 
-					$user = $this->universal->getOne(['id'  => $this->id_user], 'admin');
+					$user = $this->universal->getOne(['id'  => $this->id_user], 'users');
 
 					if (password_verify($oldPass, $user->password)) {
 						$data = [
 							"password" =>  password_hash($newPass, PASSWORD_BCRYPT, ['const' => 14])
 						];
 
-						$update = $this->universal->update($data, ['id' => $this->id_user], 'admin');
+						$update = $this->universal->update($data, ['id' => $this->id_user], 'users');
 
 						($update) ? $this->notifikasi->success('Password berhasil diupdate') : $this->notifikasi->error('Password gagal diupdate');
 					} else {
 						$this->notifikasi->error('Password lama salah');
 					}
 
-					redirect('admin/profile', 'refresh');
+					redirect('guru/profile', 'refresh');
+				}
+			} elseif ($this->u3 == 'updateBio') {
+				$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required');
+				$this->form_validation->set_rules('no_hp', 'Nomor Handphone', 'required|trim|numeric|min_length[10]|max_length[13]');
+				$this->form_validation->set_rules('nama_sekolah', 'Nama Sekolah', 'required');
+				$this->form_validation->set_rules('alamat', 'Alamat', 'required');
+
+				if ($this->form_validation->run() == false) {
+					$this->notifikasi->error(str_replace("\r\n", "", json_encode(strip_tags(validation_errors()))));
+					redirect('guru/profile', 'refresh');
+				} else {
+					$cek = $this->universal->getOne(['id_user' => $this->user[0]->id], 'biodata');
+
+					if ($cek) {
+						$data = [
+							'jk'           => $this->input->post('jk'),
+							'no_hp'        => $this->input->post('no_hp'),
+							'nama_sekolah' => $this->input->post('nama_sekolah'),
+							'alamat'       => $this->input->post('alamat')
+						];
+
+						$update = $this->universal->update($data, ['id_user' => $this->id_user], 'biodata');
+
+						($update) ? $this->notifikasi->success('Biodata berhasil diupdate') : $this->notifikasi->error('Biodata gagal diupdate');
+					} else {
+						$data = [
+							'id_user'	   => $this->id_user,
+							'jk'           => $this->input->post('jk'),
+							'no_hp'        => $this->input->post('no_hp'),
+							'nama_sekolah' => $this->input->post('nama_sekolah'),
+							'alamat'       => $this->input->post('alamat')
+						];
+
+						$insert = $this->universal->insert($data, 'biodata');
+
+						($insert) ? $this->notifikasi->success('Biodata berhasil diupdate') : $this->notifikasi->error('Biodata gagal diupdate');
+					}
+
+					redirect('guru/profile', 'refresh');
 				}
 			} else {
 				$params = [
@@ -117,34 +153,10 @@ class Guru extends MX_Controller
 				];
 				$this->load->view('profile', $params);
 			}
-		} elseif ($this->u2 == 'generate_jalur') {
-			echo 'masuk';
-			$this->db->where('jalur !=', 1);
-			$this->db->group_by('nim_ta');
-			// $this->db->limit(1500);
-			$kosong = $this->db->get('tagihan_test')->result();
-			echo $this->db->last_query();
-
-			if ($kosong) {
-				foreach ($kosong as $kos) {
-					$hasil =  $this->db->get_where('mahasiswa', array('nim' => $kos->nim_ta))->row();
-					// echo $this->db->last_query();
-					if ($hasil != '') {
-						$this->db->where('nim', $hasil->nim);
-						$updates = $this->db->update('mahasiswa', array(
-							'jalur' =>  (int)$kos->jalur
-						));
-						echo $this->db->last_query();
-
-						if ($updates) {
-							echo 'sukses';
-						}
-					}
-				}
-			}
 		} else {
 			$params = [
-				'title'     => 'Dashboard'
+				'title'       => 'Dashboard',
+				'jenis_ujian' => $this->universal->getCount(['id_user' => $this->user[0]->id], 'jenis_ujian')
 			];
 
 			$this->load->view('dashboard', $params);
@@ -152,4 +164,4 @@ class Guru extends MX_Controller
 	}
 }
 
-/* End of file Admin.php */
+/* End of file Guru.php */

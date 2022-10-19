@@ -1,0 +1,6 @@
+tinymce.init({
+	selector: '.editor',
+	plugins: 'preview importcss searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking toc insertdatetime advlist lists imagetools textpattern noneditable help quickbars emoticons code',
+	toolbar: 'undo redo | bold italic underline strikethrough superscript subscript | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview | image media link codesample | ltr rtl | code',
+	toolbar_mode: 'sliding'
+});

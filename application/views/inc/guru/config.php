@@ -19,7 +19,7 @@ $one->main_nav                   = [
             ],
             [
                 'name'  => 'Bank Soal',
-                'url'   => base_url('guru/bank_soal')
+                'sub'   => jenisUjian_menu(base_url('guru/bank_soal/'))
             ]
         ]
     ]

@@ -6,8 +6,9 @@ class M_Guru extends CI_Model
 {
     public function getUser($where)
     {
-        $this->db->select('users.*, groups.name as nama_group');
+        $this->db->select('users.*, groups.name as nama_group, biodata.jk, biodata.no_hp, biodata.nama_sekolah, biodata.alamat');
         $this->db->join('groups', 'groups.id = users.level', 'inner');
+        $this->db->join('biodata', 'users.id = biodata.id_user', 'left');
 
         if ($where) {
             $this->db->where($where);

@@ -165,3 +165,20 @@ if (!function_exists('nameGroup')) {
         return $CI->universal->getOneSelect('name', ['id' => $level], 'groups')->name;
     }
 }
+
+
+if (!function_exists('jenisUjian_menu')) {
+    function jenisUjian_menu($url)
+    {
+        $CI = &get_instance();
+        $data = $CI->universal->getOrderBy(['id_user' => $CI->id_user], 'jenis_ujian', 'nama_ujian', 'asc', '');
+        $jenis_ujian = [];
+        foreach ($data as $hasil) {
+            array_push($jenis_ujian, [
+                'name'      => $hasil->nama_ujian,
+                'url'       => $url . enkrip($hasil->id)
+            ]);
+        }
+        return $jenis_ujian;
+    }
+}
