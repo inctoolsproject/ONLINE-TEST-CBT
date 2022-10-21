@@ -17,7 +17,7 @@ $one                             = new Template('OnlineTest', 'v1.0.0', base_url
 // **************************************************************************************************
 
 //                               : The data is added in the <head> section of the page
-$one->author                     = 'sisfo360';
+$one->author                     = 'naufalF';
 $one->robots                     = 'noindex, nofollow';
 $one->title                      = $title . ' | Online Test';
 $one->description                = 'Online Test';

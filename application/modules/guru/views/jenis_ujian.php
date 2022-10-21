@@ -51,7 +51,7 @@
 											<td class="font-size-sm"><?php echo $hasil->jumlah_soal ?></td>
 											<td class="font-size-sm"><?php echo $hasil->bobot ?></td>
 											<td class="font-size-sm"><?php echo $hasil->kkm ?></td>
-											<td class="font-size-sm"><?php echo $hasil->jam . ' Menit' ?></td>
+											<td class="font-size-sm"><?php echo $hasil->waktu . ' Menit' ?></td>
 											<td class="font-size-sm"><?php echo $hasil->keterangan ?></td>
 											<td class="text-center">
 												<div class="btn-group">
@@ -118,8 +118,8 @@
 									<input type="number" name="kkm" min="0" max="1000" class="form-control" autocomplete="off" required>
 								</div>
 								<div class="form-group">
-									<label for="jam">Estimasi jam <sup class="text-danger">(menit)</sup></label>
-									<input type="number" name="jam" min="0" max="1000" class="form-control" autocomplete="off" required>
+									<label for="waktu">Estimasi Jam <sup class="text-danger">(menit)</sup></label>
+									<input type="number" name="waktu" min="0" max="1000" class="form-control" autocomplete="off" required>
 								</div>
 								<div class="form-group">
 									<label for="keterangan">Keterangan</label>
@@ -178,8 +178,8 @@
 									<input type="number" name="kkm" id="kkm" min="0" max="1000" class="form-control" autocomplete="off" required>
 								</div>
 								<div class="form-group">
-									<label for="jam">Estimasi jam <sup class="text-danger">(menit)</sup></label>
-									<input type="number" name="jam" id="jam" min="0" max="1000" class="form-control" autocomplete="off" required>
+									<label for="waktu">Estimasi Jam <sup class="text-danger">(menit)</sup></label>
+									<input type="number" name="waktu" id="waktu" min="0" max="1000" class="form-control" autocomplete="off" required>
 								</div>
 								<div class="form-group">
 									<label for="keterangan">Keterangan</label>
@@ -238,7 +238,6 @@
 									<span class="text-danger h4" id="detik"></span>
 								</div>
 							</div>
-
 
 							<div class="row mb-3">
 								<div class="col-lg-12">
@@ -302,7 +301,7 @@
 					$('#topik').val(respon.topik);
 					$('#jumlah_soal').val(respon.jumlah_soal);
 					$('#bobot').val(respon.bobot);
-					$('#jam').val(respon.jam);
+					$('#waktu').val(respon.waktu);
 					$('#kkm').val(respon.kkm);
 					$('#keterangan').text(respon.keterangan);
 				}
@@ -360,7 +359,6 @@
 
 						if (distance < 0) {
 							clearInterval(x);
-							console.log(respon.mulai_ujian);
 							if (respon.mulai_ujian == null) {
 								$('#jamm').text('0');
 								$('#menit').text('0');
@@ -464,10 +462,17 @@
 
 						if (distance < 0) {
 							clearInterval(x);
-							$('#jamm').text('0');
-							$('#menit').text('0');
-							$('#detik').text('0');
-							$('.pemisah').text(':');
+							if (respon.mulai_ujian == null) {
+								$('#jamm').text('0');
+								$('#menit').text('0');
+								$('#detik').text('0');
+								$('.pemisah').text(':');
+							} else {
+								$('#jamm').text('Ujian sudah dimulai !');
+								$('#menit').text('');
+								$('#detik').text('');
+								$('.pemisah').text('');
+							}
 						}
 					}, 1000);
 
@@ -487,10 +492,17 @@
 
 						if (distance < 0) {
 							clearInterval(y);
-							$('#jam_token').text('0');
-							$('#menit_token').text('0');
-							$('#detik_token').text('0');
-							$('.pemisah_token').text(':');
+							if (respon.selesai == null) {
+								$('#jam_token').text('0');
+								$('#menit_token').text('0');
+								$('#detik_token').text('0');
+								$('.pemisah_token').text(':');
+							} else {
+								$('#jam_token').text('Token sudah kadaluarsa !');
+								$('#menit_token').text('');
+								$('#detik_token').text('');
+								$('.pemisah_token').text('');
+							}
 						}
 					}, 1000);
 				}

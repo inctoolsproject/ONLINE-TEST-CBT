@@ -4,21 +4,17 @@
 <?php require APPPATH . 'views/inc/_global/views/head_end.php'; ?>
 <?php require APPPATH . 'views/inc/_global/views/page_start.php'; ?>
 
-<!-- Hero -->
-<div class="bg-image" style="background-image: url('<?php echo $one->assets_folder; ?>/media/photos/photo8@2x.jpg');">
-    <div class="bg-black-75">
-        <div class="content content-full text-center">
-            <div class="my-3">
-                <img class="img-avatar img-avatar128" src="<?= base_url('upload/guru/') . $this->user[0]->foto; ?>" alt="Profile">
-            </div>
-            <h1 class="h2 text-white mb-5"><?= $this->user[0]->nama; ?></h1>
-            <a class="btn btn-light" href="<?= base_url('guru'); ?>">
-                <i class="fa fa-fw fa-arrow-left text-danger"></i> Back to Dashboard
-            </a>
+<div class="bg-black-75">
+    <div class="content content-full text-center">
+        <div class="my-3">
+            <img class="img-avatar img-avatar128" src="<?= base_url('upload/guru/') . $this->user[0]->foto; ?>" alt="Profile">
         </div>
+        <h1 class="h2 text-white mb-5"><?= $this->user[0]->nama; ?></h1>
+        <a class="btn btn-light" href="<?= base_url('guru'); ?>">
+            <i class="fa fa-fw fa-arrow-left text-danger"></i> Back to Dashboard
+        </a>
     </div>
 </div>
-<!-- END Hero -->
 
 <!-- Page Content -->
 <div class="content content-boxed">

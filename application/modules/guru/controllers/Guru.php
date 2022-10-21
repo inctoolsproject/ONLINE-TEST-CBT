@@ -19,7 +19,6 @@ class Guru extends MX_Controller
 					$this->notifikasi->error(str_replace("\r\n", "", json_encode(strip_tags(validation_errors()))));
 					redirect('guru/profile', 'refresh');
 				} else {
-					$nama = $this->input->post('nama', TRUE);
 					$email = trim($this->input->post('email', TRUE));
 
 					$upload_foto = $_FILES['foto']['name'];

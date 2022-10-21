@@ -17,12 +17,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="">
 	<meta property="og:image" content="">
-	<link rel="shortcut icon" href="<?= base_url(); ?>/assets/backend/media/favicons/favicon.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="<?= base_url(); ?>/assets/backend/media/favicons/favicon-192x192.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="<?= base_url(); ?>/assets/backend/media/favicons/apple-touch-icon-180x180.png">
+	<link rel="shortcut icon" href="https://localhost/ONLINE-TEST/assets/backend/media/favicons/favicon.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="https://localhost/ONLINE-TEST/assets/backend/media/favicons/favicon-192x192.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://localhost/ONLINE-TEST/assets/backend/media/favicons/apple-touch-icon-180x180.png">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-	<link rel="stylesheet" id="css-main" href="<?= base_url(); ?>/assets/backend/css/oneui.min.css">
-	<link rel="stylesheet" id="css-theme" href="<?= base_url(); ?>/assets/backend/css/themes/flat.min.css">
+	<link rel="stylesheet" id="css-main" href="https://localhost/ONLINE-TEST/assets/backend/css/oneui.min.css">
+	<link rel="stylesheet" id="css-theme" href="https://localhost/ONLINE-TEST/assets/backend/css/themes/flat.min.css">
 
 </head>
 
@@ -44,8 +44,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</div>
 		</main>
 	</div>
-	<script src="<?= base_url(); ?>/assets/backend/js/oneui.core.min.js"></script>
-	<script src="<?= base_url(); ?>/assets/backend/js/oneui.app.min.js"></script>
+	<script src="https://localhost/ONLINE-TEST/assets/backend/js/oneui.core.min.js"></script>
+	<script src="https://localhost/ONLINE-TEST/assets/backend/js/oneui.app.min.js"></script>
 </body>
 
 </html>

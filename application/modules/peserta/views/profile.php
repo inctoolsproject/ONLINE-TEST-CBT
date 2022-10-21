@@ -1,24 +1,23 @@
 <?php require APPPATH . 'views/inc/_global/config.php'; ?>
-<?php require APPPATH . 'views/inc/guru/config.php'; ?>
+<?php require APPPATH . 'views/inc/peserta/config.php'; ?>
 <?php require APPPATH . 'views/inc/_global/views/head_start.php'; ?>
+<?php $one->get_css('js/plugins/slick-carousel/slick.css'); ?>
+<?php $one->get_css('js/plugins/slick-carousel/slick-theme.css'); ?>
 <?php require APPPATH . 'views/inc/_global/views/head_end.php'; ?>
 <?php require APPPATH . 'views/inc/_global/views/page_start.php'; ?>
+<?php include APPPATH . 'views/inc/peserta/views/inc_navigation.php'; ?>
 
-<!-- Hero -->
-<div class="bg-image" style="background-image: url('<?php echo $one->assets_folder; ?>/media/photos/photo8@2x.jpg');">
-    <div class="bg-black-75">
-        <div class="content content-full text-center">
-            <div class="my-3">
-                <img class="img-avatar img-avatar128" src="<?= base_url('upload/guru/') . $this->user[0]->foto; ?>" alt="Profile">
-            </div>
-            <h1 class="h2 text-white mb-5"><?= $this->user[0]->nama; ?></h1>
-            <a class="btn btn-light" href="<?= base_url('guru'); ?>">
-                <i class="fa fa-fw fa-arrow-left text-danger"></i> Back to Dashboard
-            </a>
+<div class="bg-black-75">
+    <div class="content content-full text-center">
+        <div class="my-3">
+            <img class="img-avatar img-avatar128" src="<?= base_url('upload/peserta/') . $this->user->foto; ?>" alt="Profile">
         </div>
+        <h1 class="h2 text-white mb-5"><?= $this->user->nama; ?></h1>
+        <a class="btn btn-light" href="<?= base_url('peserta'); ?>">
+            <i class="fa fa-fw fa-arrow-left text-danger"></i> Back to Dashboard
+        </a>
     </div>
 </div>
-<!-- END Hero -->
 
 <!-- Page Content -->
 <div class="content content-boxed">
@@ -28,7 +27,7 @@
             <h3 class="block-title">User Account</h3>
         </div>
         <div class="block-content">
-            <form action="<?= base_url('guru/profile/updateFoto'); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('peserta/updateFoto'); ?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" class="csrf_token" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                 <div class="row push">
                     <div class="col-lg-4">
@@ -39,16 +38,16 @@
                     <div class="col-lg-8 col-xl-5">
                         <div class="form-group">
                             <label for="one-profile-ediusername">Username</label>
-                            <input type="text" class="form-control" readonly name="username" required autocomplete="off" value="<?= $this->user[0]->username; ?>">
+                            <input type="text" class="form-control" readonly name="username" required autocomplete="off" value="<?= $this->user->username; ?>">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" class="form-control" name="email" required autocomplete="off" value="<?= $this->user[0]->email; ?>">
+                            <input type="email" class="form-control" name="email" required autocomplete="off" value="<?= $this->user->email; ?>">
                         </div>
                         <div class="form-group">
                             <label>Your Avatar</label>
                             <div class="push">
-                                <img class="img-avatar img-avatar64" id="gambar_nodin" src="<?= base_url('upload/guru/') . $this->user[0]->foto; ?>" alt="Profile">
+                                <img class="img-avatar img-avatar64" id="gambar_nodin" src="<?= base_url('upload/peserta/') . $this->user->foto; ?>" alt="Profile">
                             </div>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="image" accept="image/jpg,image/jpeg,image/png" data-toggle="custom-file-input" name="foto">
@@ -73,7 +72,7 @@
             <h3 class="block-title">User Biodata</h3>
         </div>
         <div class="block-content">
-            <form action="<?= base_url('guru/profile/updateBio'); ?>" method="POST">
+            <form action="<?= base_url('peserta/updateBio'); ?>" method="POST">
                 <input type="hidden" class="csrf_token" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                 <div class="row push">
                     <div class="col-lg-4">
@@ -84,27 +83,27 @@
                     <div class="col-lg-8 col-xl-5">
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="nama" value="<?= $this->user[0]->nama; ?>" required autocomplete="off">
+                            <input type="text" class="form-control" name="nama" value="<?= $this->user->nama; ?>" required autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="jk">Jenis Kelamin</label>
                             <select name="jk" class="form-control">
                                 <option value="">-- Pilih Jenis Kelamin --</option>
-                                <option value="Laki-laki" <?= ($this->user[0]->jk == 'Laki-laki') ? 'selected' : ''; ?>>Laki - laki</option>
-                                <option value="Laki-laki" <?= ($this->user[0]->jk == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
+                                <option value="Laki-laki" <?= ($this->user->jk == 'Laki-laki') ? 'selected' : ''; ?>>Laki - laki</option>
+                                <option value="Laki-laki" <?= ($this->user->jk == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="no_hp">No HP</label>
-                            <input type="number" class="form-control" name="no_hp" required autocomplete="off" value="<?= $this->user[0]->no_hp; ?>">
+                            <input type="number" class="form-control" name="no_hp" required autocomplete="off" value="<?= $this->user->no_hp; ?>">
                         </div>
                         <div class="form-group">
                             <label for="nama_sekolah">Nama Sekolah</label>
-                            <input type="text" class="form-control" name="nama_sekolah" required autocomplete="off" value="<?= $this->user[0]->nama_sekolah; ?>">
+                            <input type="text" class="form-control" name="nama_sekolah" required autocomplete="off" value="<?= $this->user->nama_sekolah; ?>">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <textarea name="alamat" cols="30" rows="5" class="form-control"><?= $this->user[0]->alamat; ?></textarea>
+                            <textarea name="alamat" cols="30" rows="5" class="form-control"><?= $this->user->alamat; ?></textarea>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-alt-primary">
@@ -123,7 +122,7 @@
             <h3 class="block-title">Change Password</h3>
         </div>
         <div class="block-content">
-            <form action="<?= base_url('guru/profile/updatePass'); ?>" method="POST">
+            <form action="<?= base_url('peserta/updatePass'); ?>" method="POST">
                 <input type="hidden" class="csrf_tokem" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                 <div class="row push">
                     <div class="col-lg-4">
@@ -165,7 +164,15 @@
 
 <?php require APPPATH . 'views/inc/_global/views/page_end.php'; ?>
 <?php require APPPATH . 'views/inc/_global/views/footer_start.php'; ?>
-<?php $one->get_js('toastr/script.js'); ?>
+<!-- Page JS Plugins -->
+<?php $one->get_js('js/plugins/slick-carousel/slick.min.js'); ?>
+
+<!-- Page JS Helpers (Slick Slider Plugin) -->
+<script>
+    jQuery(function() {
+        One.helpers('slick');
+    });
+</script>
 
 <script>
     $("#image").change(function() {

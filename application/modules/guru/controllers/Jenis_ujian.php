@@ -127,9 +127,21 @@ class Jenis_ujian extends MX_Controller
 		$dates = strtotime($date);
 		$selesai = date("Y-m-d H:i:s", strtotime("+30" . " minutes", $dates));
 
+		$token = $this->_getToken();
+		$cekToken = $this->universal->getOne([
+			'token' => $token,
+		], 'token');
+
+		while ($cekToken) {
+			$token = $this->_getToken();
+			$cekToken = $this->universal->getOne([
+				'token' => $token,
+			], 'token');
+		}
+
 		$data = [
 			'id_jenis_ujian' => dekrip($id),
-			'token'          => $this->_getToken(),
+			'token'          => $token,
 			'token_selesai'  => $selesai,
 			'mulai_ujian'    => $tanggal . ' ' . $jam
 		];
