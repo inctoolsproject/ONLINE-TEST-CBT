@@ -26,7 +26,7 @@
 				</div>
 				<div class="block-content block-content-full">
 					<div class="table-responsive">
-						<table class="table table-bordered table-striped table-hover table-vcenter start-at-40">
+						<table class="table table-bordered table-striped table-hover table-vcenter start-at-25">
 							<thead>
 								<tr>
 									<th class="text-center">#</th>
@@ -72,7 +72,6 @@
 							</tbody>
 						</table>
 					</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -251,7 +250,7 @@
 									</div>
 								</div>
 								<div class="col-lg-12 text-center">
-									<label>Token akan kadaluarsa pada :</label>
+									<label>Token akan berakhir pada :</label>
 								</div>
 								<div class="col-lg-12 text-center">
 									<span class="text-danger h4" id="jam_token"></span>
@@ -395,7 +394,7 @@
 								$('#detik_token').text('0');
 								$('.pemisah_token').text(':');
 							} else {
-								$('#jam_token').text('Token sudah kadaluarsa !');
+								$('#jam_token').text('Token sudah berakhir !');
 								$('#menit_token').text('');
 								$('#detik_token').text('');
 								$('.pemisah_token').text('');
@@ -498,7 +497,7 @@
 								$('#detik_token').text('0');
 								$('.pemisah_token').text(':');
 							} else {
-								$('#jam_token').text('Token sudah kadaluarsa !');
+								$('#jam_token').text('Token sudah berakhir !');
 								$('#menit_token').text('');
 								$('#detik_token').text('');
 								$('.pemisah_token').text('');

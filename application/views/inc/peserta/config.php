@@ -2,7 +2,7 @@
 $one->inc_header                 = APPPATH . 'views/inc/peserta/views/inc_header.php';
 $one->inc_footer                 = APPPATH . 'views/inc/peserta/views/inc_footer.php';
 
-$one->title                      = $title . ' - Peserta';
+$one->title                      = $title . ' | Peserta';
 $one->l_header_dark              = true;
 $one->l_header_fixed             = false;
 

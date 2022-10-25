@@ -26,3 +26,5 @@ $route['guru/bank_soal/getOne'] = 'guru/bank_soal/getOne';
 $route['guru/bank_soal/edit']   = 'guru/bank_soal/edit';
 $route['guru/bank_soal/delete'] = 'guru/bank_soal/delete';
 $route['guru/bank_soal/(:any)'] = 'guru/bank_soal';
+
+$route['peserta/tes/(:any)'] = 'peserta/tes';

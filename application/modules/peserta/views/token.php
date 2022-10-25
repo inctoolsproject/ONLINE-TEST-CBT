@@ -45,6 +45,20 @@
 						<span class="text-primary" id="topik-ujian"></span> | <span id="soal-ujian"></span> - <em class="text-muted" id="waktu-ujian"></em>
 					</p>
 					<p class="font-size-sm" id="ket-ujian"></p>
+
+					<div class="row mt-3 mb-2">
+						<div class="col-lg-12">
+							<span class="text-danger h6" id="jam"></span>
+							<span class="text-danger h6 pemisah">:</span>
+							<span class="text-danger h6" id="menit"></span>
+							<span class="text-danger h6 pemisah">:</span>
+							<span class="text-danger h6" id="detik"></span>
+						</div>
+					</div>
+
+					<div class="form-group d-none" id="div-ambil">
+						<button type="button" class="btn btn-primary" id="ambil">Ambil Ujian</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -58,7 +72,9 @@
 <?php $one->get_js('toastr/script.js'); ?>
 
 <script>
-	$(document).on('keypress', function(e) {
+	var x = null;
+
+	$('#token').on('keypress', function(e) {
 		if (e.which == 13) {
 			cekToken();
 		}
@@ -67,7 +83,6 @@
 	$('#search').click(function() {
 		cekToken();
 	});
-
 
 	function cekToken() {
 		let token = $('#token').val();
@@ -83,23 +98,25 @@
 				token: token
 			};
 
+			$('#detail-ujian').addClass('d-none');
+			$('#div-ambil').addClass('d-none');
+
+			$('#jam').text('0');
+			$('#menit').text('0');
+			$('#detik').text('0');
+			$('.pemisah').text(':');
+
 			$.ajax({
 				url: '<?php echo base_url('peserta/ujian/cekToken') ?>',
 				type: 'POST',
 				dataType: 'JSON',
 				data: dataJson,
 				success: function(respon) {
-					if (respon.status == 2) {
+					if (respon.status == 0) {
 						toastr.error('Token tidak ditemukan !');
 
 						$('#detail-ujian').addClass('d-none');
-					} else if (respon.status == 0) {
-						toastr.warning('Token sudah kadaluarsa !');
-
-						$('#detail-ujian').addClass('d-none');
 					} else {
-						toastr.success('Token tersedia !');
-
 						$('#detail-ujian').removeClass('d-none');
 
 						$('#nama-ujian').text(respon.data.nama_ujian);
@@ -108,13 +125,69 @@
 						$('#waktu-ujian').text(respon.data.waktu + ' Menit');
 						$('#ket-ujian').text(respon.data.keterangan);
 
-						console.log(respon.data);
+						clearInterval(x);
+						var countDownDate_x = new Date(respon.token.token_selesai).getTime();
+
+						x = setInterval(function() {
+							var now = new Date().getTime();
+
+							var distance = countDownDate_x - now;
+
+							var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+							var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+							var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+							var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+							$('#jam').text(hours);
+							$('#menit').text(minutes);
+							$('#detik').text(seconds);
+
+							if (distance < 0) {
+								clearInterval(x);
+
+								$('#jam').text('Token sudah berakhir !');
+								$('#menit').text('');
+								$('#detik').text('');
+								$('.pemisah').text('');
+
+								$('#div-ambil').addClass('d-none');
+							} else {
+								$('#div-ambil').removeClass('d-none');
+							}
+						}, 1000);
 					}
 
-					$('#csrf_token').val(respon.token);
+					$('#csrf_token').val(respon.csrf_token);
 				}
 			});
 		}
 	}
+
+	$('#ambil').click(function() {
+		let token = $('#token').val();
+		let csrfName = $("#csrf_token").attr('name');
+		let csrfHash = $("#csrf_token").val();
+
+		var dataJson = {
+			[csrfName]: csrfHash,
+			token: token
+		};
+
+		$.ajax({
+			url: '<?php echo base_url('peserta/ujian/ambilUjian') ?>',
+			type: 'POST',
+			dataType: 'JSON',
+			data: dataJson,
+			success: function(respon) {
+				$('#csrf_token').val(respon.csrf_token);
+
+				if (respon.status == 0) {
+					toastr.warning(respon.error);
+				} else {
+					document.location.href = `<?= base_url('peserta/ujian/list'); ?>`;
+				}
+			}
+		});
+	});
 </script>
 <?php require APPPATH . 'views/inc/_global/views/footer_end.php'; ?>
